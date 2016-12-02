@@ -54,7 +54,7 @@ int main(){
 	std::cout << "\n\n\nMove-assigned graph" <<std::endl;
 	gMoved = std::move(gConnected);
 	std::cout << gMoved;
-	*/
+	
 
 
 	std::cout << "\n\n\nWeighted graph" <<std::endl;
@@ -200,12 +200,47 @@ int main(){
 
 	DirectedWeightedGraph directedWeighted3(7,true);
 	std::cout << directedWeighted3 <<std::endl;
+*/
 
-
+	WeightedGraph weighted4(10,true);
 
 	std::cout << "LAMBDA FUNCTIONS" <<std::endl;
+	std::cout << "printEdgesLongerThan" <<std::endl;
 	weighted4.printEdgesLongerThan(100);
+
+	std::cout << "\n\nprintAccordingToPredicate" <<std::endl;
+	auto minWeightLambda = [] (const std::map<int,std::list<std::pair<int, int>>>& adjacencyList, const int& desiredWeight) {
+		for(const auto& vertexEdgesPair : adjacencyList){
+			std::cout << "Vertice " << vertexEdgesPair.first << ":" << std::endl;
+			for(const auto& edge : vertexEdgesPair.second){
+				//print only if the weight of edge is bigger than chosen value
+				if(edge.second > desiredWeight)
+					std::cout  << "\t" << edge.first << "-" << edge.second << std::endl;
+			}
+			std::cout  << std::endl;
+		}
+    };
+    weighted4.printAccordingToPredicate(std::bind(minWeightLambda,std::placeholders::_1,100));
+
+
+    std::cout << "\n\nprintAccordingToPredicate2" <<std::endl;
+    int minWeight = 100;
+    auto minWeightLambda2 =  [&minWeight](const std::map<int,std::list<std::pair<int, int>>>& adjacencyList){
+    	for(const auto& vertexEdgesPair : adjacencyList){
+			std::cout << "Vertice " << vertexEdgesPair.first << ":" << std::endl;
+			for(const auto& edge : vertexEdgesPair.second){
+				//print only if the weight of edge is bigger than chosen value
+				if(edge.second > minWeight)
+					std::cout  << "\t" << edge.first << "-" << edge.second << std::endl;
+			}
+			std::cout  << std::endl;
+		}
+    };
+    weighted4.printAccordingToPredicate2(minWeightLambda2);
+
+    std::cout << "\n\nprintPrimeNumberEdges" <<std::endl;
 	weighted4.printPrimeNumberEdges();
+    //weighted4.printAccordingToPredicate(std::bind(minWeightForVertex,std::placeholders::_1,100));
 
 	return EXIT_SUCCESS;
 }

@@ -2,6 +2,7 @@
 #define WEIGHTED_GRAPH_H_INCLUDED
 
 #include "Graph.h"
+#include <functional>
 
 class WeightedGraph : virtual public Graph {
 	public:
@@ -12,6 +13,9 @@ class WeightedGraph : virtual public Graph {
 		int getWeight(int v, int w) const;
 		void printEdgesLongerThan(int desiredWeight) const;
 		void printPrimeNumberEdges() const;
+		template<class lambda>
+		void printAccordingToPredicate(lambda l) const;
+		void printAccordingToPredicate2(std::function<void (const std::map<int,std::list<std::pair<int, int>>>&)> lambda) const;
 	protected:
 	private:
 };

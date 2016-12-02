@@ -91,12 +91,12 @@ void WeightedGraph::printEdgesLongerThan(int desiredWeight) const{
 void WeightedGraph::printPrimeNumberEdges() const{
 	//loop over each vertex
 	for(const auto& vertexEdgesPair : adjacencyList){
-		std::cout << "Vertice " << vertexEdgesPair.first << ":" << std::endl;
-		//for each edge of current vertex
+		std::cout << "\nVertice " << vertexEdgesPair.first << ":" << std::endl;
+		//for each edge of current vertex execute lambda
 		std::for_each(adjacencyList.at(vertexEdgesPair.first).begin(), adjacencyList.at(vertexEdgesPair.first).end(),
 			[&](const std::pair<int,int>& edge){
 				int isPrime=true;
-				//if at least once divided by some value with leftovers that it's not a prime
+				//if at least once divided by some value with remainder than it's not a prime
 				for(int i = 2; i <= edge.second / 2; ++i){
 				    if(edge.second % i == 0){
 				        isPrime = false;
@@ -108,4 +108,13 @@ void WeightedGraph::printPrimeNumberEdges() const{
 			}
 		);
 	}
+}
+
+template<class lambda>
+void WeightedGraph::printAccordingToPredicate(lambda l) const{
+	l(adjacencyList);
+}
+		
+void WeightedGraph::printAccordingToPredicate2(std::function<void (const std::map<int,std::list<std::pair<int, int>>>& )> lambda) const{
+	lambda(adjacencyList);
 }
